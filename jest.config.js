@@ -10,6 +10,7 @@ module.exports = exports = {
   moduleFileExtensions: ["js", "json", "jsx", "node"],
   testPathIgnorePatterns: ["/node_modules/"],
   moduleNameMapper: {
+    "^core": require.resolve("./src/core"),
     "^store$": require.resolve("./src/store"),
     "^store/actions$": require.resolve("./src/store/actions"),
     "^store/actions(.+)": require.resolve("./src/store/actions/$1"),
