@@ -14,6 +14,7 @@ module.exports = exports = {
     "^store$": require.resolve("./src/store"),
     "^store/actions$": require.resolve("./src/store/actions"),
     "^store/selectors": require.resolve("./src/store/selectors"),
+    "^utils/features": require.resolve("./src/utils/features"),
     "\\.(css|scss)$": require.resolve("./test/style-mock"),
     "\\.(gif|jpg|png|svg)$": require.resolve("./test/file-mock.js")
   },
