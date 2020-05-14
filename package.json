@@ -40,6 +40,7 @@
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --config=jest.config.js --coverage --coverageDirectory=output/coverage/jest --watch",
     "test:log-debug": "node --inspect-brk ./node_modules/.bin/jest --runInBand --config=jest.config.js --coverage --coverageDirectory=output/coverage/jest --watch --verbose false --silent false",
     "test:update-snapshots": "jest --config=jest.config.js --updateSnapshot",
+    "test:watch": "jest --config=jest.config.js --watch --silent --verbose",
     "validate": "npm audit",
     "postinstall": "link-module-alias"
   },
@@ -58,6 +59,7 @@
     "test:debug": "Runs all tests and coverage in watch mode in highest debug level. Open chrome://inspect in a browser to set breakpoints",
     "test:log-debug": "Runs all tests and coverage in watch mode in highest debug level, will print console.log statements. Open chrome://inspect in a browser to set breakpoints",
     "test:update-snapshots": "Update jest snapshots for failing tests",
+    "test:watch": "Run jest continuously as changes are saved",
     "validate": "Check for improperly installed dependencies"
   },
   "_moduleAliases": {
