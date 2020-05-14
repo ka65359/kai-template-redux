@@ -2,6 +2,15 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+// TODO: Change this to non-class component check carbon files for example
+// this is going to be the landing page that servers up tictac toe in one tab
+// and will this code below in another... I'm not sure if I want to use a class
+// but it could be cood to have an example class component... check how it's instantiated
+// in the original template project
+//
+// You also need to break up the styles and such as per Carbon styling guides and move
+// these helper functions in TicTacToe out to a library or something
+// And write all your tests for those functions!
 class App extends Component {
   constructor(props) {
     super(props);
