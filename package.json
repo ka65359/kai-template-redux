@@ -10,19 +10,28 @@
   "license": "MIT",
   "proxy": "http://localhost:4400",
   "dependencies": {
+    "ramda": "^0.23.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-redux": "7.2.0",
+    "recompose": "^0.30.0",
+    "redux": "4.0.5",
+    "redux-act": "1.8.0",
+    "redux-logger": "2.6.1",
+    "redux-promise": "0.6.0",
+    "redux-thunk": "2.3.0",
     "react-scripts": "^3.4.0"
   },
   "scripts": {
     "build": "react-scripts build",
-    "clean": "yarn cache clean && npm install",
+    "clean": "npm rebuild",
     "coverage": "yarn test -- --coverage",
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
     "lint": "eslint ./src",
     "lint:formatted": "run-p format lint",
     "lint:formatted-styles": "run-p format lint:styles",
     "lint:styles": "stylelint ./src",
+    "recover-commit": "git checkout-index -af",
     "scripts": "npm-scripts-info",
     "start": "run-p start:server start:app",
     "start:app": "react-scripts start",
@@ -31,9 +40,11 @@
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --config=jest.config.js --coverage --coverageDirectory=output/coverage/jest --watch",
     "test:log-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --config=jest.config.js --coverage --coverageDirectory=output/coverage/jest --watch --verbose false --silent false",
     "test:update-snapshots": "jest --config=jest.config.js --updateSnapshot",
-    "validate": "yarn check --integrity"
+    "validate": "npm audit",
+    "postinstall": "link-module-alias"
   },
   "scripts-info": {
+    "recover-commit": "If your staged files disappeared on a failed commit attempt, try this",
     "scripts": "Display information about the scripts",
     "start:app": "Start the application",
     "start:server": "Start the server",
@@ -48,6 +59,10 @@
     "test:log-debug": "Runs all tests and coverage in watch mode in highest debug level, will print console.log statements. Open chrome://inspect in a browser to set breakpoints",
     "test:update-snapshots": "Update jest snapshots for failing tests",
     "validate": "Check for improperly installed dependencies"
+  },
+  "_moduleAliases": {
+    "core": "src/core",
+    "store": "src/store"
   },
   "eslintConfig": {
     "extends": [
@@ -88,6 +103,7 @@
     "./src/setupTests.js"
   ],
   "devDependencies": {
+    "acorn": "^6.0.0",
     "@babel/core": "7.9.6",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "24.9.0",
@@ -99,7 +115,7 @@
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "1.15.2",
     "enzyme-to-json": "^3.4.4",
-    "handlebars": "4.5.0",
+    "handlebars": "4.7.6",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "eslint": "^6.8.0",
@@ -113,12 +129,16 @@
     "express-pino-logger": "^4.0.0",
     "fetch-mock": "7.3.0",
     "jest": "^24.9.0",
+    "link-module-alias": "^1.2.0",
     "node-env-run": "^3.0.2",
     "nodemon": "^1.19.3",
+    "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "npm-scripts-info": "^0.3.6",
     "pino-colada": "^1.4.5",
     "prettier": "^1.17.0",
+    "redux-immutable-state-invariant": "2.1.0",
+    "redux-mock-store": "1.5.4",
     "stylelint": "^13.3.3",
     "typescript": "^3.8.2",
     "webpack": "^4.0.0"
