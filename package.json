@@ -1,10 +1,10 @@
 {
-  "name": "kai-template-jest",
+  "name": "kai-template-redux",
   "version": "1.0.0",
-  "description": "Kai's Project Template with linting/formatting on commit and jest support",
+  "description": "Kai's Project Template with linting/formatting, jest, and redux examples",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ka65359/kai-template-jest.git"
+    "url": "https://github.com/ka65359/kai-template-redux.git"
   },
   "author": "Kai Arrowood",
   "license": "MIT",
