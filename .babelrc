@@ -1,18 +1,8 @@
 {
-  "presets": [["env", { "modules": false }], "react", "stage-0"],
-  "plugins": [
-    "transform-runtime",
-    "transform-decorators-legacy"
-  ],
+  "presets": [["@babel/env", {"modules": false}], "@babel/react"],
   "env": {
-    "production": {
-      "plugins": [
-        "transform-react-remove-prop-types",
-        "transform-react-constant-elements"
-      ]
-    },
     "test": {
-      "presets": ["env", "react", "stage-0"]
+      "presets": [["@babel/env"], "@babel/react"]
     }
   }
 }
