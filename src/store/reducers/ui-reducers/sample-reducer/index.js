@@ -1,7 +1,7 @@
 import { createReducer } from "redux-act";
 import { clearAStateProp, setAStateProp } from "store/actions";
 
-const initialState = {
+export const initialState = {
   aStateProp: ""
 };
 
