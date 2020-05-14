@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppContainer } from "./AppContainer";
-import { App } from "./App";
+import AppContainer from "./AppContainer";
+import App from "./App";
 import store from "./store";
 import "./index.scss";
 
