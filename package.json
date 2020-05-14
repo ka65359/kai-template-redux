@@ -31,6 +31,7 @@
     "lint:formatted": "run-p format lint",
     "lint:formatted-styles": "run-p format lint:styles",
     "lint:styles": "stylelint ./src",
+    "recover-commit": "git checkout-index -af",
     "scripts": "npm-scripts-info",
     "start": "run-p start:server start:app",
     "start:app": "react-scripts start",
@@ -43,6 +44,7 @@
     "postinstall": "link-module-alias"
   },
   "scripts-info": {
+    "recover-commit": "If your staged files disappeared on a failed commit attempt, try this",
     "scripts": "Display information about the scripts",
     "start:app": "Start the application",
     "start:server": "Start the server",
