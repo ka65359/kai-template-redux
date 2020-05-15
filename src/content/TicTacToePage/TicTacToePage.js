@@ -8,7 +8,7 @@ export const TicTacToePage = ({
   let loading = <div></div>;
   if (aStateProp) {
     // TODO: insert loader tag
-    loading = <div className="kai-class"></div>;
+    loading = <div className="kai-loading-class"></div>;
   }
   // TODO: intl <TicTacToe intl={intl} />
   return (
