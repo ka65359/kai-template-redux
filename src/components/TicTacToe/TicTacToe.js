@@ -77,23 +77,91 @@ const enhance = compose(
   })
 );
 
+export const getWinningPaths = (width) => {
+  const MAX_WIDTH = 9; // TODO: move to constants
+  if (width > MAX_WIDTH) {
+    width = MAX_WIDTH;
+  }
+  let paths = [];
+
+  const getRowPaths = (width) => {
+    /*
+      // TODO: tests
+      width = 3
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8]
+    */
+    let paths = [];
+    let currPath = [];
+    for (let row = 0; row < width; row++) {
+      currPath = [];
+      for (let col = 0; col < width; col++) {
+        currPath.push(row * 3 + col);
+      }
+      paths.push(currPath);
+    }
+    return paths;
+  };
+
+  const getColumnPaths = (width) => {
+    /*
+      // TODO: tests
+      width = 3
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8]
+    */
+    let paths = [];
+    let currPath = [];
+    for (let row = 0; row < width; row++) {
+      currPath = [];
+      for (let col = 0; col < width; col++) {
+        currPath.push(col * width + row);
+      }
+      paths.push(currPath);
+    }
+    return paths;
+  };
+
+  const getDiagonalPaths = (width) => {
+    /*
+      // TODO: tests
+      width = 3
+      [0, 4, 8],
+      [2, 4, 6]
+    */
+    let paths = [];
+    let currPath = [];
+    for (let i = 0; i < width; i++) {
+      currPath.push(i * (width - 1) + i);
+    }
+    paths.push(currPath);
+    currPath = [];
+    for (let i = 1; i <= width; i++) {
+      currPath.push(i * (width - 1));
+    }
+    paths.push(currPath);
+    return paths;
+  };
+
+  // a full row is a win
+  paths = getRowPaths(width);
+  // a full column is a win
+  paths = paths.concat(getColumnPaths(width));
+  // a diagonal line is a win
+  paths = paths.concat(getDiagonalPaths(width));
+  return paths;
+};
+
 /**
   This algorithm is checking all the possible ways to score
   three in a row and seeing if 3 in row exists.
 **/
-const calculateWinner = (squares) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
+export const isWinner = (squares, width) => {
+  let winningPaths = getWinningPaths(width);
+  for (let i = 0; i < winningPaths.length; i++) {
+    const [a, b, c] = winningPaths[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
@@ -112,12 +180,13 @@ export const TicTacToe = ({
 }) => {
   const player1 = constants.PLAYER_1;
   const player2 = constants.PLAYER_2;
+  const width = constants.WIDTH;
 
-  let handleClick = (i) => {
+  let handleClick = (i, width) => {
     history = history.slice(0, turnNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (isWinner(squares, width) || squares[i]) {
       return;
     }
     squares[i] = currentPlayer;
@@ -132,13 +201,12 @@ export const TicTacToe = ({
   };
 
   const current = history[turnNumber];
-  const winner = calculateWinner(current.squares);
-
+  const winner = isWinner(current.squares, width);
   const moves = history.map((step, move) => {
     const desc = move ? "Go to move #" + move : "Go to game start";
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <button onClick={() => jumpTo(move, width)}>{desc}</button>
       </li>
     );
   });
@@ -155,7 +223,7 @@ export const TicTacToe = ({
       <div className="game-board">
         <TicTacToeBoard
           squares={current.squares}
-          onClick={(i) => handleClick(i)}
+          onClick={(i) => handleClick(i, width)}
         />
       </div>
       <div className="game-info">
