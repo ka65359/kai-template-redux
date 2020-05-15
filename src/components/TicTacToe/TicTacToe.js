@@ -2,17 +2,33 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose, lifecycle, pure, withState, withHandlers } from "recompose";
 import { setGameHistory, setTurnNumber, setCurrentPlayer } from "store/actions";
-//import store from "../store";
+import * as constants from "../../constants/tictactoe";
 // TODO: A loader
 import TicTacToeBoard from "./TicTacToeBoard";
 import "./TicTacToe.scss";
 
-export const PLAYER_1 = "X";
-const PLAYER_2 = "O";
+const onMouseDownHandler = () => {
+  let gameBoardElem = document.getElementsByClassName("game");
+  if (gameBoardElem.length) {
+    gameBoardElem[0].classList.add("mouse-navigation");
+    gameBoardElem[0].classList.remove("kbd-navigation");
+  }
+};
 
-//const onAnEventFiring = (evt) => {
-const onAnEventFiring = () => {
-  // evt.detail
+const onKeyDownHandler = (evt) => {
+  if (evt.keyCode === 9) {
+    let gameBoardElem = document.getElementsByClassName("game");
+    if (gameBoardElem.length) {
+      gameBoardElem.classList.add("kbd-navigation");
+      gameBoardElem.classList.remove("mouse-navigation");
+    }
+  }
+};
+
+const onClickHandler = (evt) => {
+  if (evt.target.tagName == "A" && evt.target.getAttribute("href") == "#") {
+    evt.preventDefault();
+  }
 };
 
 const mapDispatchToProps = {
@@ -34,12 +50,16 @@ const enhance = compose(
   lifecycle({
     componentWillMount() {
       // subscribe to eventlisteners
-      window.addEventListener("event-name", onAnEventFiring);
+      window.addEventListener("mousedown", onMouseDownHandler);
+      window.addEventListener("keydown", onKeyDownHandler);
+      window.addEventListener("click", onClickHandler);
     },
     componentDidMount() {},
     componentWillUnmount() {
       // remove eventlisteners
-      window.removeEventListener("event-name", onAnEventFiring);
+      window.removeEventListener("mousedown", onMouseDownHandler);
+      window.removeEventListener("keydown", onKeyDownHandler);
+      window.removeEventListener("click", onClickHandler);
     },
     shouldComponentUpdate(nextProps) {
       if (this.props !== nextProps) {
@@ -57,6 +77,10 @@ const enhance = compose(
   })
 );
 
+/**
+  This algorithm is checking all the possible ways to score
+  three in a row and seeing if 3 in row exists.
+**/
 const calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
@@ -86,26 +110,25 @@ export const TicTacToe = ({
   setCurrentPlayer
   //intl
 }) => {
+  const player1 = constants.PLAYER_1;
+  const player2 = constants.PLAYER_2;
+
   let handleClick = (i) => {
-    history = history.slice(0, this.state.stepNumber + 1);
+    history = history.slice(0, turnNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = currentPlayer;
-    setGameHistory({
-      history: history.concat([{ squares }])
-    });
+    setGameHistory(history.concat([{ squares }]));
     setTurnNumber(history.length);
-    setCurrentPlayer(currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1);
+    setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
   };
 
   let jumpTo = (step) => {
-    this.setState({
-      turnNumber: step,
-      currentPlayer: step % 2 === 0 ? PLAYER_2 : PLAYER_1
-    });
+    setTurnNumber(step);
+    setCurrentPlayer(step % 2 === 0 ? player2 : player1);
   };
 
   const current = history[turnNumber];
@@ -124,7 +147,7 @@ export const TicTacToe = ({
   if (winner) {
     status = "Winner: " + winner;
   } else {
-    status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    status = "Next player: " + currentPlayer;
   }
 
   return (
