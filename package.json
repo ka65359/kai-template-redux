@@ -63,6 +63,7 @@
     "validate": "Check for improperly installed dependencies"
   },
   "_moduleAliases": {
+    "constants": "src/constants",
     "core": "src/core",
     "store": "src/store",
     "utils": "src/utils"
