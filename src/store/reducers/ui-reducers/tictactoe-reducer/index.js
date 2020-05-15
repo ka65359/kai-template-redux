@@ -10,8 +10,13 @@ import {
 import * as constants from "../../../../constants/tictactoe";
 
 export const initialState = {
-  currentPlayer: constants.PLAYER_1 || "X",
-  history: [{ squares: Array(9).fill(null) }],
+  currentPlayer: constants.PLAYER_1,
+  history: [
+    {
+      squares: Array(9).fill(null),
+      player: constants.PLAYER_1
+    }
+  ],
   turnNumber: 0
 };
 

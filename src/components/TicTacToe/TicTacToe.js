@@ -1,7 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose, lifecycle, pure, withState, withHandlers } from "recompose";
-import { setGameHistory, setTurnNumber, setCurrentPlayer } from "store/actions";
+import {
+  setGameHistory,
+  setTurnNumber,
+  setCurrentPlayer,
+  clearGameHistory,
+  clearTurnNumber,
+  clearCurrentPlayer
+} from "store/actions";
 import * as constants from "../../constants/tictactoe";
 // TODO: A loader
 import TicTacToeBoard from "./TicTacToeBoard";
@@ -34,7 +41,10 @@ const onClickHandler = (evt) => {
 const mapDispatchToProps = {
   setGameHistory,
   setTurnNumber,
-  setCurrentPlayer
+  setCurrentPlayer,
+  clearGameHistory,
+  clearTurnNumber,
+  clearCurrentPlayer
 };
 
 const enhance = compose(
@@ -175,7 +185,10 @@ export const TicTacToe = ({
   currentPlayer,
   setGameHistory,
   setTurnNumber,
-  setCurrentPlayer
+  setCurrentPlayer,
+  clearGameHistory,
+  clearTurnNumber,
+  clearCurrentPlayer
   //intl
 }) => {
   const player1 = constants.PLAYER_1;
@@ -190,23 +203,35 @@ export const TicTacToe = ({
       return;
     }
     squares[i] = currentPlayer;
-    setGameHistory(history.concat([{ squares }]));
+    setGameHistory(
+      history.concat([
+        { squares, player: currentPlayer === player1 ? player2 : player1 }
+      ])
+    );
     setTurnNumber(history.length);
     setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
   };
 
-  let jumpTo = (step) => {
-    setTurnNumber(step);
-    setCurrentPlayer(step % 2 === 0 ? player2 : player1);
+  let jumpTo = (step, history) => {
+    if (step === 0) {
+      clearGameHistory();
+      clearTurnNumber();
+      clearCurrentPlayer();
+    } else {
+      setTurnNumber(step);
+      setCurrentPlayer(history.player);
+    }
   };
 
   const current = history[turnNumber];
   const winner = isWinner(current.squares, width);
   const moves = history.map((step, move) => {
-    const desc = move ? "Go to move #" + move : "Go to game start";
+    const desc = move ? "Go to move #" + move : "Restart";
     return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move, width)}>{desc}</button>
+      <li
+        key={move}
+        style={{ display: move == history.length ? "none" : "visible" }}>
+        <button onClick={() => jumpTo(move, history[move])}>{desc}</button>
       </li>
     );
   });
