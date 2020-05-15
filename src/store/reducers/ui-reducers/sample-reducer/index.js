@@ -1,7 +1,7 @@
 import { createReducer } from "redux-act";
 import { clearAStateProp, setAStateProp } from "store/actions";
 
-const initialState = {
+export const initialState = {
   aStateProp: ""
 };
 
@@ -14,6 +14,10 @@ export default createReducer(
       return rslt;
     },
     [setAStateProp]: (state, payload) => {
+      if (!payload) {
+        console.error("New value is empty, reverting to intial");
+        payload = initialState.aStateProp;
+      }
       let rslt = Object.assign({}, state, {
         aStateProp: payload
       });

@@ -1,5 +1,5 @@
 import { setAStateProp } from "store/actions";
-import store from "../../../store";
+//import store from "../../../store";
 
 export const sampleFetch = (payload) => {
   let bodyJSON = payload ? payload : {};
@@ -31,11 +31,4 @@ export const sampleFetch = (payload) => {
         dispatch(setAStateProp(json));
       });
   };
-};
-
-export const getAStatePropertyVal = (payload) => {
-  let currentState = store.getState().ui.aStateProp;
-  if (currentState != payload) {
-    store.dispatch(setAStateProp(payload));
-  }
 };

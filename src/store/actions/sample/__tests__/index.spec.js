@@ -1,5 +1,6 @@
 import fetchMock from "fetch-mock";
-import { getAStatePropertyVal, sampleFetch } from "../index.js";
+import { sampleFetch } from "../index.js";
+//import store from "store";
 //import _ from 'lodash';
 
 // mock must be at top outside tests
@@ -12,62 +13,6 @@ const trueJSONParse = JSON.parse;
 describe("sample actions tests", function() {
   afterAll(function() {
     fetchMock.restore();
-  });
-
-  describe("getAStatePropertyVal()", function() {
-    let expectedRslt;
-    let rslt;
-    // let findSpy;
-
-    beforeEach(function() {
-      /*
-      findSpy = _.find.mockImplementation((param, aFunc) => {
-        if (aFunc && param === null) {
-          return "something_found";
-        }
-        return actualLodash.find(param, aFunc);
-      });
-      */
-      /*
-      parseSpyFunc = (data) => {
-        if (data === null) {
-          return handleNullParse();
-        } else {
-          return handleNormalParse(data);
-        }
-      };
-      handleNullParse = () => {
-        return {};
-      };
-      handleNormalParse = (data) => {
-        const val = trueJSONParse(_.cloneDeep(data));
-        return val;
-      };
-      parseSpy = jest.spyOn(JSON, "parse").mockImplementation(parseSpyFunc);
-      */
-      expectedRslt = "expected";
-    });
-
-    afterEach(function() {
-      // findSpy.mockReset();
-      // findSpy = null;
-      expectedRslt = null;
-      rslt = null;
-    });
-
-    afterAll(function() {
-      /*
-      parseSpy.mockClear();
-      parseSpy.mockReset();
-      JSON.parse = trueJSONParse;
-      */
-    });
-
-    test("it handles no params", () => {
-      // let payload = trueJSONParse("{}");
-      rslt = getAStatePropertyVal();
-      expect(rslt).toEqual(expectedRslt);
-    });
   });
 
   describe("sampleFetch()", () => {
@@ -89,9 +34,19 @@ describe("sample actions tests", function() {
       fetchMock.restore();
     });
 
-    test("it handles no params", () => {
+    test("it handles no params", (done) => {
       fetchMock.get("*", {});
-      expect(sampleFetch()).toBeUndefined();
+      rslt = sampleFetch()(dispatch);
+      expect(rslt).toBeInstanceOf(Promise);
+      rslt
+        .then(() => {
+          let err = "We succeeded when we shouldn't have";
+          expect(err).toBeFalsey();
+        })
+        .catch(() => {
+          expect(dispatch).not.toHaveBeenCalled();
+          done();
+        });
     });
 
     test("it handles internal server errors", (done) => {
@@ -100,7 +55,8 @@ describe("sample actions tests", function() {
       expect(rslt).toBeInstanceOf(Promise);
       rslt
         .then(() => {
-          done.fail();
+          let err = "We succeeded when we shouldn't have";
+          expect(err).toBeFalsey();
         })
         .catch(() => {
           expect(dispatch).not.toHaveBeenCalled();
@@ -122,7 +78,7 @@ describe("sample actions tests", function() {
           done();
         })
         .catch((err) => {
-          done.fail(err);
+          expect("Error: " + err).toBeFalsey();
         });
     });
   });

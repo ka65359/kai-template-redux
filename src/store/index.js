@@ -22,20 +22,20 @@ const enhancer = compose(
 );
 
 function configureStore(initialState) {
-  let astate = initialState;
+  let astate = initialState || {};
   if ("localStorage" in window && localStorage.getItem("kaisession")) {
     astate = localStorage.getItem("kaisession");
     astate = JSON.parse(astate);
   }
   const store = createStore(rootReducer, astate, enhancer);
 
-  if (module.hot) {
+  /* if (module.hot) {
     // eslint-disable-global-require
     module.hot.accept("./reducers", () => {
       const reducers = require("./reducers").default;
       return store.replaceReducer(reducers);
     });
-  }
+  }*/
 
   return store;
 }
