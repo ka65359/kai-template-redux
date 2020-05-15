@@ -14,6 +14,10 @@ export default createReducer(
       return rslt;
     },
     [setAStateProp]: (state, payload) => {
+      if (!payload) {
+        console.error("New value is empty, reverting to intial");
+        payload = initialState.aStateProp;
+      }
       let rslt = Object.assign({}, state, {
         aStateProp: payload
       });
