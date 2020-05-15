@@ -7,11 +7,11 @@ import {
   clearCurrentPlayer,
   setCurrentPlayer
 } from "store/actions";
-import PLAYER_1 from "../../../../components/TicTacToe";
+import * as constants from "../../../../constants/tictactoe";
 
 export const initialState = {
-  currentPlayer: PLAYER_1 || "X",
-  history: [{ squares: [] }],
+  currentPlayer: constants.PLAYER_1 || "X",
+  history: [{ squares: Array(9).fill(null) }],
   turnNumber: 0
 };
 
